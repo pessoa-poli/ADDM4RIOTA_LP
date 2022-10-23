@@ -1,4 +1,4 @@
-# NPL_frontend
+# NLP_frontend
 
 # URLs importantes:
 1. https://github.com/cristovaoiglesias/csi5137_course/blob/main/ADDM4RIOTA.pdf
