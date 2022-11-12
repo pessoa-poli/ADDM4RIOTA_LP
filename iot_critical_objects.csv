@@ -1,0 +1,10 @@
+Device,DVC
+Tag,TAG
+Sensor,SSR
+Actuator,ATT
+Active Digital Artefact,ADA
+Passive Digital Artefact,PDA
+Service,SVC
+Resource,RSC
+Network Resource,NRSC
+On-Device Resource,ODRSC
