@@ -8,10 +8,12 @@ CREATE TABLE `ADDM4RIOTA`.`iot_critical_object` (
 
 CREATE TABLE `ADDM4RIOTA`.`threat_type` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `IoTCriticalObjects` varchar(255),
   `iot_threat_id` varchar(255) UNIQUE,
   `name` varchar(255),
   `description` text,
-  `reference` varchar(255)
+  `reference` varchar(255),
+  `ResilientSolutionIds` varchar(255)
 );
 
 CREATE TABLE `ADDM4RIOTA`.`resilient_solution` (
