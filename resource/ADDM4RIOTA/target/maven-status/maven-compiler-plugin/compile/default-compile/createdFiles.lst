@@ -1,0 +1,10 @@
+com\addm4riota\backend\Addm4RiotaApplication.class
+com\addm4riota\backend\domain\model\ThreatType.class
+com\addm4riota\backend\domain\repository\ThreatTypeRepository.class
+com\addm4riota\backend\domain\model\IoTCriticalObject.class
+com\addm4riota\backend\api\controller\ResilientSolutionController.class
+com\addm4riota\backend\domain\repository\IoTCriticalObjectRepository.class
+com\addm4riota\backend\domain\model\ResilientSolution.class
+com\addm4riota\backend\api\controller\IoTCriticalObjController.class
+com\addm4riota\backend\domain\repository\ResilientSolutionRepository.class
+com\addm4riota\backend\api\controller\ThreatTypeController.class

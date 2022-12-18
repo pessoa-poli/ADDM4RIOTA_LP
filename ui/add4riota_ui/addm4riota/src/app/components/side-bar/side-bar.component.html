@@ -1,0 +1,19 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="push">
+      <p>Auto-resizing sidenav</p>
+      <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Toggle extra text
+      </button>
+      <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+        <a mat-icon>menu</a>
+      </button>
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <button type="button" mat-mini-fab (click)="drawer.toggle()">
+        Toggle sidenav
+      </button>
+    </div>
+  
+</mat-drawer-container>
