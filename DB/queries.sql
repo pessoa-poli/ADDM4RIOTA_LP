@@ -125,3 +125,10 @@ BEGIN
 END;
 
 call populate_resilient_solution_enum();
+
+select * from resilient_solution rs where CAST(rs.id as CHAR) like '1';
+
+
+select res.* from (ADDM4RIOTA.BRIDGE_resilient_solution_threat_type B left join ADDM4RIOTA.resilient_solution res
+    on B.RESSOL_id = res.resilient_solution_id )
+    where B.TT_id = 'NLTT1';
