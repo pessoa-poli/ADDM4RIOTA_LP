@@ -67,7 +67,23 @@ select * from ADDM4RIOTA.BRIDGE_iot_critical_object_threat_type co left join ADD
     on co.TT_id = tt.iot_threat_id
     where co.ICO_acronym='DVC';
 
+
+-- Filtrar IoT threats
+select tt.iot_threat_id, tt.name, tt.description from
+    ADDM4RIOTA.threat_type_enum tte right join ADDM4RIOTA.threat_type tt
+        on tt.threat_type_enum = tte.id
+    inner join ADDM4RIOTA.BRIDGE_iot_critical_object_threat_type B_ico_tt
+        on B_ico_tt.TT_id = tt.iot_threat_id
+    where tte.acronym like ifnull(null, '%') AND
+          B_ico_tt.ICO_acronym like ifnull(null, '%');
+
+select tt.* from ADDM4RIOTA.threat_type tt
+    where tt.iot_threat_id like CONCAT('%',ifnull(null,''),'%') AND
+        tt.IoTCriticalObjects like CONCAT('%',ifnull(null, ''),'%');
+
+
 select REGEXP_SUBSTR(tt.iot_threat_id,'^[A-Z]+') as rid from threat_type tt group by rid;
+
 
 CREATE PROCEDURE populate_threat_enum()
 BEGIN

@@ -45,7 +45,7 @@ def getAllSolutionTypes():
 @anvil.server.callable
 def getAllIoTObjectsDropdown():
     mycursor.execute("select * from iot_critical_object")
-    return [(obj[1]+" - ("+obj[2]+")",obj[0]) for obj in mycursor.fetchall()]
+    return [(obj[1]+" - ("+obj[2]+")",obj[2]) for obj in mycursor.fetchall()]
 
 @anvil.server.callable
 def getAllThreatTypesDropdown():
@@ -71,9 +71,37 @@ def filterSolutions(solutionDTO):
             rs.resilient_solution_enum like ifnull(%s,'%') AND
             B.acronym like ifnull(%s,'%');"""
     mycursor.execute(query,solutionDTO)
-    # print(mycursor.statement)
+    print(mycursor.statement)
     return  [{'id':obj[0],'resilient_solution_id':obj[1],'name':obj[2],'description':obj[3]} for obj in mycursor.fetchall()]
 
 
+@anvil.server.callable
+def filterIoTObjects(iotObjectsDTO):
+    # solutionDTO has the format below, the values between quotes should be replaced by the wanted values, or None.
+    # ("id", 'name', 'acronym')
+    query = """select rs.* from (ADDM4RIOTA.threat_type_enum B inner join ADDM4RIOTA.resilient_solution rs
+            on B.id = rs.resilient_solution_enum ) where
+            cast(rs.id as CHAR) like ifnull(%s,'%') AND
+            cast(rs.resilient_solution_id as char) like ifnull(%s,'%') AND
+            rs.name like ifnull(%s,'%') AND
+            rs.description like ifnull(%s,'%') AND
+            rs.references like ifnull(%s,'%') AND
+            rs.resilient_solution_enum like ifnull(%s,'%') AND
+            B.acronym like ifnull(%s,'%');"""
+    mycursor.execute(query,iotObjectsDTO)
+    print(mycursor.statement)
+    return  [{'id':obj[0],'resilient_solution_id':obj[1],'name':obj[2],'description':obj[3]} for obj in mycursor.fetchall()]
+
+
+@anvil.server.callable
+def filterThreatTypes(threatTypeDTO):
+    # threatTypeDTO has the following format
+    # (ttAcronym, ICO_Acronym) Ex.: (ALTT, DVC)
+    query = """select tt.* from ADDM4RIOTA.threat_type tt
+                where tt.iot_threat_id like CONCAT('%',ifnull(%s,''),'%') AND
+                    tt.IoTCriticalObjects like CONCAT('%',ifnull(%s, ''),'%');"""
+    mycursor.execute(query,threatTypeDTO)
+    # print(mycursor.statement)
+    return  mycursor.fetchall()
 
 anvil.server.wait_forever()
