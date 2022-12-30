@@ -145,6 +145,14 @@ call populate_resilient_solution_enum();
 select * from resilient_solution rs where CAST(rs.id as CHAR) like '1';
 
 
-select res.* from (ADDM4RIOTA.BRIDGE_resilient_solution_threat_type B left join ADDM4RIOTA.resilient_solution res
-    on B.RESSOL_id = res.resilient_solution_id )
-    where B.TT_id = 'NLTT1';
+select rs.* from (ADDM4RIOTA.threat_type_enum B inner join ADDM4RIOTA.resilient_solution rs
+            on B.id = rs.resilient_solution_enum ) where
+            cast(rs.id as CHAR) like ifnull(NULL,'%') AND
+            ( (isnull('RTK') = 1) OR (rs.resilient_solution_id rlike concat('RTK','[0-9]+'))) AND
+            rs.name like ifnull(NULL,'%') AND
+            rs.description like CONCAT('%',ifnull(NULL,''),'%') AND
+            rs.references like CONCAT('%',ifnull(NULL,''),'%') AND
+            rs.resilient_solution_enum like CONCAT('%',ifnull(NULL,''),'%') AND
+            B.acronym like CONCAT('%',ifnull(NULL,''),'%');
+
+SELECT REGEXP_LIKE('MRTK',CONCAT('^','rtk','[0-9]*'));
