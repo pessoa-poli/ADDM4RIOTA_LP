@@ -61,15 +61,23 @@ def getAllSolutionTypesDropdown():
 def filterSolutions(solutionDTO):
     # solutionDTO has the format below, the values between quotes should be replaced by the wanted values, or None.
     # ("id", "resilient_solution_id", 'name', 'description', 'references', 'resilient_solution_enum', TT_id)
-    query = """select rs.* from (ADDM4RIOTA.resilient_solution_enum rse inner join ADDM4RIOTA.resilient_solution rs
-            on rse.id = rs.resilient_solution_enum ) where
+    print('Solution DTO')
+    print(solutionDTO)
+    query = """select rs.*
+            from (ADDM4RIOTA.resilient_solution_enum rse inner join ADDM4RIOTA.resilient_solution rs
+            on rse.id = rs.resilient_solution_enum )
+            inner join
+            ADDM4RIOTA.BRIDGE_resilient_solution_threat_type rstt
+            on rstt.RESSOL_id = rs.resilient_solution_id            
+            where
             cast(rs.id as CHAR) like ifnull(%s,'%') AND
             ( (isnull(%s) = 1) OR rse.acronym like %s) AND
             rs.name like ifnull(%s,'%') AND
             rs.description like CONCAT('%',ifnull(%s,''),'%') AND
             rs.references like CONCAT('%',ifnull(%s,''),'%') AND
             rs.resilient_solution_enum like CONCAT('%',ifnull(%s,''),'%') AND
-            rse.acronym like CONCAT('%',ifnull(%s,''),'%');"""
+            rstt.TT_id like CONCAT('%',ifnull(%s,''),'%')
+            group by rs.resilient_solution_id;"""
     # Repeat resilient_solution_id parameter in the list
     resilient_solution_id = solutionDTO[1]
     solutionDTO.insert(1,resilient_solution_id)

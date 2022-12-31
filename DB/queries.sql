@@ -155,4 +155,16 @@ select rs.* from (ADDM4RIOTA.threat_type_enum B inner join ADDM4RIOTA.resilient_
             rs.resilient_solution_enum like CONCAT('%',ifnull(NULL,''),'%') AND
             B.acronym like CONCAT('%',ifnull(NULL,''),'%');
 
-SELECT REGEXP_LIKE('MRTK',CONCAT('^','rtk','[0-9]*'));
+select rs.* from (ADDM4RIOTA.resilient_solution_enum rse inner join ADDM4RIOTA.resilient_solution rs
+            on rse.id = rs.resilient_solution_enum ) inner join
+            ADDM4RIOTA.BRIDGE_resilient_solution_threat_type rstt
+            on rstt.RESSOL_id = rs.resilient_solution_id
+            where
+            cast(rs.id as CHAR) like ifnull(NULL,'%') AND
+            ( (isnull(NULL) = 1) OR rse.acronym like NULL) AND
+            rs.name like ifnull(NULL,'%') AND
+            rs.description like CONCAT('%',ifnull(NULL,''),'%') AND
+            rs.references like CONCAT('%',ifnull(NULL,''),'%') AND
+            rs.resilient_solution_enum like CONCAT('%',ifnull(NULL,''),'%') AND
+            rstt.TT_id like CONCAT('%',ifnull('NLTT',''),'%')
+            group by rs.resilient_solution_id;
